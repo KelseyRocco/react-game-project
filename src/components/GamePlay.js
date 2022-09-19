@@ -98,7 +98,11 @@ function GamePlay() {
     }
 
     if (keys[index] === "gun") {
-      setBulletCountComp(bulletCountComp - 1);
+      if (bulletCountComp === 0) {
+        setBulletCount = 0;
+      } else {
+        setBulletCountComp(bulletCountComp - 1);
+      }
     }
 
     return keys[index];
