@@ -47,12 +47,19 @@ function Player({ name = "player", score = 0, action = "gun", bullets = 0 }) {
 }
 
 /*COMPUTER CHOICE */
-function randomAction() {
-  const keys = Object.keys(actions);
-  const index = Math.floor(Math.random() * keys.length);
+// function randomAction() {
+//   const keys = Object.keys(actions);
+//   const index = Math.floor(Math.random() * keys.length);
 
-  return keys[index];
-}
+//   if (keys[index] === "bullets") {
+//     setBulletCountComp(bulletCountComp + 1);
+//   }
+
+//   if (keys[index] === "gun") {
+//     setBulletCountComp(bulletCountComp - 1);
+//   }
+//   return keys[index];
+// }
 
 /*MESSAGE RETURN*/
 function calculateWinner(playerChoice, compChoice) {
@@ -93,11 +100,37 @@ function GamePlay() {
   const [compScore, setCompScore] = useState(0);
   const [winner, setWinner] = useState(0);
 
+  const [bulletCount, setBulletCount] = useState(0);
+  const [bulletCountComp, setBulletCountComp] = useState(0);
+
+  /*COMPUTER CHOICE */
+  function randomAction() {
+    const keys = Object.keys(actions);
+    const index = Math.floor(Math.random() * keys.length);
+
+    if (keys[index] === "bullets") {
+      setBulletCountComp(bulletCountComp + 1);
+    }
+
+    if (keys[index] === "gun") {
+      setBulletCountComp(bulletCountComp - 1);
+    }
+    return keys[index];
+  }
+
   /*UPDATES ACTION*/
   const onActionSelected = (selectedAction) => {
     setPlayerAction(selectedAction);
     const newCompAction = randomAction();
     setCompAction(newCompAction);
+
+    if (selectedAction === "bullets") {
+      setBulletCount(bulletCount + 1);
+    }
+
+    if (selectedAction === "gun") {
+      setBulletCount(bulletCount - 1);
+    }
 
     /*KEEPS TRACK OF SCORE */
     const newWinner = calculateWinner(selectedAction, newCompAction);
@@ -122,9 +155,15 @@ function GamePlay() {
                 name={user.given_name ? user.given_name : "player"}
                 score={playerScore}
                 action={playerAction}
+                bullets={bulletCount}
               />
 
-              <Player name="Computer" score={compScore} action={compAction} />
+              <Player
+                name="Computer"
+                score={compScore}
+                action={compAction}
+                bullets={bulletCountComp}
+              />
             </div>
 
             <div>
