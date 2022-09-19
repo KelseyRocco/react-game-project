@@ -38,7 +38,7 @@ function Player({ name = "player", score = 0, action = "gun", bullets = 0 }) {
       <div className="player">
         <div className="score">{`${name}: ${score}`}</div>
         <div className="action">
-          {action && <ActionIcon action={action} size={60} />}
+          {action && <ActionIcon action={action} size={75} />}
         </div>
       </div>
       <div class="bullets">{`Bullets: ${bullets}`}</div>
