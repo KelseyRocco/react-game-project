@@ -46,21 +46,6 @@ function Player({ name = "player", score = 0, action = "gun", bullets = 0 }) {
   );
 }
 
-/*COMPUTER CHOICE */
-// function randomAction() {
-//   const keys = Object.keys(actions);
-//   const index = Math.floor(Math.random() * keys.length);
-
-//   if (keys[index] === "bullets") {
-//     setBulletCountComp(bulletCountComp + 1);
-//   }
-
-//   if (keys[index] === "gun") {
-//     setBulletCountComp(bulletCountComp - 1);
-//   }
-//   return keys[index];
-// }
-
 /*MESSAGE RETURN*/
 function calculateWinner(playerChoice, compChoice) {
   if (playerChoice === compChoice) {
@@ -115,6 +100,7 @@ function GamePlay() {
     if (keys[index] === "gun") {
       setBulletCountComp(bulletCountComp - 1);
     }
+
     return keys[index];
   }
 
@@ -129,7 +115,11 @@ function GamePlay() {
     }
 
     if (selectedAction === "gun") {
-      setBulletCount(bulletCount - 1);
+      if (bulletCount === 0) {
+        setBulletCount = 0;
+      } else {
+        setBulletCount(bulletCount - 1);
+      }
     }
 
     /*KEEPS TRACK OF SCORE */

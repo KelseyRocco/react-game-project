@@ -13,6 +13,10 @@ const LoginButton = () => {
           Sign In
         </button>
         <MainTitle />
+        <h3>How to play:</h3>
+        <p>Shoot your opponent before they shoot you!</p>
+        <p>You must have bullets in your gun before you can shoot.</p>
+        <p>You can block incoming shots by using the sheild.</p>
       </div>
     )
   );
