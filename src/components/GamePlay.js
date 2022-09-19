@@ -134,7 +134,14 @@ function GamePlay() {
     } else if (newWinner === 4) {
       setCompScore(compScore + 1);
     }
+
+    if (playerScore === 2) {
+      alert(`${user.given_name} won!`);
+    }
   };
+  if (compScore === 2) {
+    alert("Computer won!");
+  }
 
   return (
     isAuthenticated && (
