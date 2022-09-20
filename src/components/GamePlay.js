@@ -1,10 +1,6 @@
 import "../App.css";
 import LoginButton from "./LoginButton";
-import {
-  GiSawedOffShotgun,
-  GiCheckedShield,
-  GiHeavyBullets,
-} from "react-icons/gi";
+import { GiRayGun, GiCheckedShield, GiElectric } from "react-icons/gi";
 import { useState } from "react";
 import ShowWinner from "./ShowWinner";
 import MainTitle from "./MainTitle";
@@ -12,9 +8,9 @@ import { useAuth0 } from "@auth0/auth0-react";
 
 /*GLOBAL VARIABLES*/
 const actions = {
-  gun: "gun",
+  raygun: "raygun",
   shield: "shield",
-  bullets: "bullets",
+  charges: "charges",
 };
 
 /*FUNCTIONS*/
@@ -22,9 +18,9 @@ const actions = {
 /*DISPLAYS ICONS BASED ON ACTION*/
 function ActionIcon({ action, ...props }) {
   const icons = {
-    gun: GiSawedOffShotgun,
+    raygun: GiRayGun,
     shield: GiCheckedShield,
-    bullets: GiHeavyBullets,
+    charges: GiElectric,
   };
   const Icon = icons[action];
 
@@ -32,7 +28,12 @@ function ActionIcon({ action, ...props }) {
 }
 
 /*PLAYER */
-function Player({ name = "player", score = 0, action = "gun", bullets = 0 }) {
+function Player({
+  name = "player",
+  score = 0,
+  action = "raygun",
+  charges = 0,
+}) {
   return (
     <div>
       <div className="player">
@@ -41,7 +42,7 @@ function Player({ name = "player", score = 0, action = "gun", bullets = 0 }) {
           {action && <ActionIcon action={action} size={75} />}
         </div>
       </div>
-      <div class="bullets">{`Bullets: ${bullets}`}</div>
+      <div class="charges">{`Charges: ${charges}`}</div>
     </div>
   );
 }
@@ -51,28 +52,19 @@ function calculateWinner(playerChoice, compChoice) {
   if (playerChoice === compChoice) {
     return 1;
   } else if (
-    (playerChoice === "gun" && compChoice === "shield") ||
-    (playerChoice === "shield" && compChoice === "gun")
+    (playerChoice === "raygun" && compChoice === "shield") ||
+    (playerChoice === "shield" && compChoice === "raygun")
   ) {
     return 2;
-  } else if (playerChoice === "gun" && compChoice === "bullets") {
+  } else if (playerChoice === "raygun" && compChoice === "charges") {
     return 3;
-  } else if (playerChoice === "bullets" && compChoice === "gun") {
+  } else if (playerChoice === "charges" && compChoice === "raygun") {
     return 4;
   } else {
     return 5;
   }
 
   return null;
-}
-
-/*CHOOSE DIFF ACTIONS*/
-function ActionButton({ action = "gun", onActionSelected }) {
-  return (
-    <button className="round-btn" onClick={() => onActionSelected(action)}>
-      <ActionIcon action={action} size={35} />
-    </button>
-  );
 }
 
 /*PLAY GAME*/
@@ -85,23 +77,31 @@ function GamePlay() {
   const [compScore, setCompScore] = useState(0);
   const [winner, setWinner] = useState(0);
 
-  const [bulletCount, setBulletCount] = useState(0);
-  const [bulletCountComp, setBulletCountComp] = useState(0);
+  const [chargeCount, setChargeCount] = useState(0);
+  const [chargeCountComp, setChargeCountComp] = useState(0);
 
+  /*CHOOSE DIFF ACTIONS*/
+  function ActionButton({ action = "raygun", onActionSelected }) {
+    return (
+      <button className="round-btn" onClick={() => onActionSelected(action)}>
+        <ActionIcon action={action} size={35} />
+      </button>
+    );
+  }
   /*COMPUTER CHOICE */
   function randomAction() {
     const keys = Object.keys(actions);
     const index = Math.floor(Math.random() * keys.length);
 
-    if (keys[index] === "bullets") {
-      setBulletCountComp(bulletCountComp + 1);
+    if (keys[index] === "charges") {
+      setChargeCountComp(chargeCountComp + 1);
     }
 
-    if (keys[index] === "gun") {
-      if (bulletCountComp === 0) {
-        setBulletCount = 0;
+    if (keys[index] === "raygun") {
+      if (chargeCountComp === 0) {
+        setChargeCount = 0;
       } else {
-        setBulletCountComp(bulletCountComp - 1);
+        setChargeCountComp(chargeCountComp - 1);
       }
     }
 
@@ -114,15 +114,15 @@ function GamePlay() {
     const newCompAction = randomAction();
     setCompAction(newCompAction);
 
-    if (selectedAction === "bullets") {
-      setBulletCount(bulletCount + 1);
+    if (selectedAction === "charges") {
+      setChargeCount(chargeCount + 1);
     }
 
-    if (selectedAction === "gun") {
-      if (bulletCount === 0) {
-        setBulletCount = 0;
+    if (selectedAction === "raygun") {
+      if (chargeCount === 0) {
+        setChargeCount = 0;
       } else {
-        setBulletCount(bulletCount - 1);
+        setChargeCount(chargeCount - 1);
       }
     }
 
@@ -135,12 +135,12 @@ function GamePlay() {
       setCompScore(compScore + 1);
     }
 
-    if (playerScore === 2) {
-      alert(`${user.given_name} won!`);
+    if (playerScore === 3) {
+      alert(`${user.given_name ? user.given_name : "You"} won!`);
     }
   };
-  if (compScore === 2) {
-    alert("Computer won!");
+  if (compScore === 3) {
+    alert("The Alien won!");
   }
 
   return (
@@ -156,25 +156,28 @@ function GamePlay() {
                 name={user.given_name ? user.given_name : "player"}
                 score={playerScore}
                 action={playerAction}
-                bullets={bulletCount}
+                charges={chargeCount}
               />
 
               <Player
-                name="Computer"
+                name="Alien"
                 score={compScore}
                 action={compAction}
-                bullets={bulletCountComp}
+                charges={chargeCountComp}
               />
             </div>
 
             <div>
-              <ActionButton action="gun" onActionSelected={onActionSelected} />
+              <ActionButton
+                action="raygun"
+                onActionSelected={onActionSelected}
+              />
               <ActionButton
                 action="shield"
                 onActionSelected={onActionSelected}
               />
               <ActionButton
-                action="bullets"
+                action="charges"
                 onActionSelected={onActionSelected}
               />
             </div>
