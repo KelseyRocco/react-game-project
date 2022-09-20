@@ -10,7 +10,6 @@ function App() {
     <main className="column">
       <LoginButton />
       <LogoutButton />
-      {/* <AvatarImage /> */}
       <WelcomeMessage />
       <GamePlay />
     </main>

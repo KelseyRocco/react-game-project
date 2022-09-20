@@ -7,7 +7,7 @@ const AvatarImage = () => {
 
   return (
     isAuthenticated && (
-      <div>
+      <div className="avatarDiv">
         <img
           className="avatarImg"
           src={user.picture ? user.picture : "https://via.placeholder.com/150"}
