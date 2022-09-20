@@ -1,5 +1,5 @@
 function MainTitle() {
-  return <h1>Load, Block, Shoot</h1>;
+  return <h1>Charge, Block, Zap</h1>;
 }
 
 export default MainTitle;
