@@ -1,5 +1,5 @@
 html {
-  background-color: #ffa69e;
+  background-color: lightseagreen;
 }
 
 .auth-btn {
@@ -69,7 +69,7 @@ p {
   color: #faf3dd;
 }
 
-.bullets {
+.charges {
   justify-content: space-around;
   margin: 10px 0 25px 0;
 }
