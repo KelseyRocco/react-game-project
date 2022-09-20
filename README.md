@@ -1,7 +1,6 @@
 # **CHARGE, BLOCK, ZAP**
 
 ![Landing Page of Game](./src/assets/mainPage.jpg)
-https://kelseyrocco.github.io/shoot-block-load-game/
 
 ## **How To Play Charge, Block, Zap**
 
